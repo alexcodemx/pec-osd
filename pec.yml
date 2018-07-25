@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: 'gitlab.example.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:9090'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    ports:
+      - '9090:9090'
+      - '2224:22'
+    volumes:
+      - '/home/alejandro/Documents/pec/gitlab/srv/gitlab/config:/etc/gitlab'
+      - '/home/alejandro/Documents/pec/gitlab/srv/gitlab/logs:/var/log/gitlab'
+      - '/home/alejandro/Documents/pec/gitlab/srv/gitlab/data:/var/opt/gitlab'
+
+  jenkins:
+    image: 'myjenkins'
+    ports:
+      - '8080:8080'
+    container_name: jenkins
+    volumes:
+      - '/home/alejandro/Documents/pec/jenkins/tmp/jenkins2:/var/jenkins_home'
+      - '/home/alejandro/Documents/pec/jenkins/var/run/docker.sock:/var/run/docker.sock'
